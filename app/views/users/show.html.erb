@@ -1,5 +1,66 @@
-<h1>
-  <%= gravatar_for @user %>
-  <%= @user.name %>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <%= gravatar_for @user %>
+    <%= @user.name %>
+  </div>
+
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-md-1">
+      <span class="label label-default">EMAIL</span>
+      </div>
+      <div class="col-md-11">
+      <span><%= @user.email %></span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-1">
+      <span class="label label-default">名前</span>
+      </div>
+      <div class="col-md-11">
+      <span><%= @user.name %></span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-1">
+      <span class="label label-default">年齢</span>
+      </div>
+      <div class="col-md-11">
+      <span><%= @user.age %></span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-1">
+      <span class="label label-default">国籍</span>
+      </div>
+      <div class="col-md-11">
+      <span><%= @user.country %></span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-1">
+      <span class="label label-default">自己紹介</span>
+      </div>
+      <div class="col-md-11">
+      <span><%= @user.introduction %></span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-1">
+      <span class="label label-default">URL</span>
+      </div>
+      <div class="col-md-11">
+      <span><%= @user.url %></span>
+      </div>
+    </div>
+    <% if logged_in? %>
+    <div class="row">
+      <div class="col-md-3">
+        <%#= link_to "Edit Profile", edit_user_path %>
+      </div>
+    </div>
+    <% end %>
+  </div>
   
-</h1>
+</div>
