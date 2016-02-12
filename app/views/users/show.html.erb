@@ -1,5 +1,6 @@
 
 <div class="panel panel-default">
+  <% if @user %>
   <div class="panel-heading">
     <%= gravatar_for @user %>
     <%= @user.name %>
@@ -57,10 +58,12 @@
     <% if logged_in? %>
     <div class="row">
       <div class="col-md-3">
-        <%#= link_to "Edit Profile", edit_user_path %>
+        <% if @user.id == current_user.id %>
+          <%= link_to "Edit Profile", edit_user_path %>
+        <% end %>
       </div>
     </div>
     <% end %>
   </div>
-  
+  <% end %>
 </div>

@@ -1,9 +1,12 @@
 class UsersController < ApplicationController
   
   def show
-    @user = current_user
-    
-    if !logged_in?
+    if logged_in?
+      @user = User.find_by(id: params[:id])
+      if !@user
+        flash.now[:danger] = "Could not find the user!"
+      end
+    else
       redirect_to login_path
     end
   end
