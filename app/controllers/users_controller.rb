@@ -37,13 +37,17 @@ class UsersController < ApplicationController
   end
   
   def update
-    @user = current_user
-    
+    binding.pry
     if logged_in?
-      if @user.update(user_params)
+      @user = User.find_by(id: params[:id])
+      if @user != current_user
+        #パラメーターとセッションのidミスマッチの場合
+        redirect_to root_url
+      elsif @user.update(user_params)
         session[:user_id] = @user.id
         redirect_to @user, notice: 'ユーザーを編集しました'
       else
+        #保存NG
         render 'edit'
       end
     else
