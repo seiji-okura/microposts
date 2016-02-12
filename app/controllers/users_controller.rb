@@ -37,7 +37,6 @@ class UsersController < ApplicationController
   end
   
   def update
-    binding.pry
     if logged_in?
       @user = User.find_by(id: params[:id])
       if @user != current_user
