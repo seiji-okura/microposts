@@ -1,17 +1,15 @@
 class UsersController < ApplicationController
+  before_action :set_user,
+                only: [:show, :edit, :update, :followings, :followers]
+  before_action :logged_in_user, only: [:show, :edit, :update]
+  before_action :authenticate!, only: [:edit, :update]
   
   def show
-    if logged_in?
-      @user = User.find_by(id: params[:id])
-      if !@user
-        flash.now[:danger] = "Could not find the user!"
-      end
-    else
-      redirect_to login_path
+    if !@user
+      flash.now[:danger] = "Could not find the user!"
     end
   end
 
-  
   def new
     @user = User.new
   end
@@ -27,31 +25,16 @@ class UsersController < ApplicationController
   end
   
   def edit
-    @user = current_user
-    
-    if logged_in?
-      render 'edit'
-    else
-      redirect_to login_path
-    end
+    render 'edit'
   end
   
   def update
-    if logged_in?
-      @user = User.find_by(id: params[:id])
-      if @user != current_user
-        #パラメーターとセッションのidミスマッチの場合
-        redirect_to root_url
-      elsif @user.update(user_params)
-        session[:user_id] = @user.id
-        redirect_to @user, notice: 'ユーザーを編集しました'
-      else
-        #保存NG
-        render 'edit'
-      end
+    if @user.update(user_params)
+      session[:user_id] = @user.id
+      redirect_to @user, notice: 'ユーザーを編集しました'
     else
-      #flash[:danger] = "invalid email/password combination"
-      redirect_to login_path
+      #保存NG
+      render 'edit'
     end
   end
   
@@ -60,7 +43,22 @@ class UsersController < ApplicationController
     params.require(:user).permit(:name, :email, :age,
                                  :country, :introduction, :url,
                                  :password, :password_confirmation)
-                               
+  end
+  
+  def logged_in_user
+    if !logged_in?
+      redirect_to login_path
+    end
+  end
+  
+  def set_user
+    @user = User.find_by(id: params[:id])
+  end
+  
+  def authenticate!
+    if @user != current_user
+      redirect_to root_url, flash: { alert: "不正なアクセス" }
+    end
   end
   
 end
