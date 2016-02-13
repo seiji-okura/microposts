@@ -26,6 +26,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # use bootstrap
 gem 'bootstrap-sass'
 
+# Use pry debugger
+gem 'pry-byebug', group: :development
+
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
