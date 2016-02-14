@@ -5,9 +5,12 @@ class UsersController < ApplicationController
   before_action :authenticate!, only: [:edit, :update]
   
   def show
+    #binding.pry
     if !@user
       flash.now[:danger] = "Could not find the user!"
+      return
     end
+    @microposts = @user.microposts.order(created_at: :desc)
   end
 
   def new
@@ -43,12 +46,6 @@ class UsersController < ApplicationController
     params.require(:user).permit(:name, :email, :age,
                                  :country, :introduction, :url,
                                  :password, :password_confirmation)
-  end
-  
-  def logged_in_user
-    if !logged_in?
-      redirect_to login_path
-    end
   end
   
   def set_user
