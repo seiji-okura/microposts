@@ -5,7 +5,6 @@ class UsersController < ApplicationController
   before_action :authenticate!, only: [:edit, :update]
   
   def show
-    #binding.pry
     if !@user
       flash.now[:danger] = "Could not find the user!"
       return
