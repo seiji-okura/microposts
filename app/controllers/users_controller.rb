@@ -3,14 +3,32 @@ class UsersController < ApplicationController
                 only: [:show, :edit, :update, :followings, :followers]
   before_action :logged_in_user, only: [:show, :edit, :update]
   before_action :authenticate!, only: [:edit, :update]
+  before_action :get_num_followings, only: [:show, :followings, :followers]
+  before_action :get_num_followers, only: [:show, :followings, :followers]
+  
+  def followings
+    @users = @user.following_users.all()
+    #binding.pry
+  end
+  
+  def followers
+    @users = @user.follower_users.all()
+    #binding.pry
+  end
+  
   
   def show
     if !@user
       flash.now[:danger] = "Could not find the user!"
       return
     end
+    #@users = folowings
+    @num_followings = @user.following_relationships.count
+    @num_followers  = @user.follower_relationships.count
     @microposts = @user.microposts.order(created_at: :desc)
   end
+  
+  
 
   def new
     @user = User.new
@@ -51,6 +69,14 @@ class UsersController < ApplicationController
     @user = User.find_by(id: params[:id])
   end
   
+  def get_num_followers
+    @num_followers  = @user.follower_relationships.count
+  end
+  
+  def get_num_followings
+    @num_followings = @user.following_relationships.count
+  end
+
   def authenticate!
     if @user != current_user
       redirect_to root_url, flash: { alert: "不正なアクセス" }
