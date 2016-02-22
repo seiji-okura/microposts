@@ -42,8 +42,8 @@ class User < ActiveRecord::Base
     following_users.include?(other_user)
   end
   
-  def feed_times
-    ret = Micropost.where(user_id: following_user_ids + [self.id])
+  def feed_times(page)
+    ret = Micropost.where(user_id: following_user_ids + [self.id]).page(page)
     return ret
   end
   

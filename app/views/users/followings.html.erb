@@ -19,10 +19,12 @@
   </aside>
   <div class="col-md-9">
     <h1>Follow</h1>
+    <%= page_entries_info @users %>
     <ul class="list-group">
       <% if @users %>
         <%= render @users %>
       <% end %>
     </ul>
+    <%= paginate @users %>
   </div>
 </div>

@@ -7,12 +7,12 @@ class UsersController < ApplicationController
   before_action :get_num_followers, only: [:show, :followings, :followers]
   
   def followings
-    @users = @user.following_users.all()
+    @users = @user.following_users.page(params[:page])
     #binding.pry
   end
   
   def followers
-    @users = @user.follower_users.all()
+    @users = @user.follower_users.page(params[:page])
     #binding.pry
   end
   
@@ -25,7 +25,7 @@ class UsersController < ApplicationController
     #@users = folowings
     @num_followings = @user.following_relationships.count
     @num_followers  = @user.follower_relationships.count
-    @microposts = @user.microposts.order(created_at: :desc)
+    @microposts = @user.microposts.page(params[:page]).order(created_at: :desc)
   end
   
   
